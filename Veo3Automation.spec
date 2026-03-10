@@ -1,12 +1,18 @@
 # -*- mode: python ; coding: utf-8 -*-
 
-
 a = Analysis(
     ['main.py'],
     pathex=[],
     binaries=[],
-    datas=[],
-    hiddenimports=[],
+    datas=[], # Nếu bạn có thư mục chứa ảnh/icon, hãy thêm vào đây: [('src/assets', 'src/assets')]
+    hiddenimports=[
+        'selenium',
+        'webdriver_manager',
+        'src.ui.app',
+        'src.ui.license_window',
+        'src.utils.license_manager',
+        'src.automation.browser'
+    ],
     hookspath=[],
     hooksconfig={},
     runtime_hooks=[],
@@ -20,13 +26,14 @@ exe = EXE(
     pyz,
     a.scripts,
     a.binaries,
+    a.zipfiles,
     a.datas,
     [],
-    name='Veo3Automation',
+    name='Veo3Automation_Pro',
     debug=False,
     bootloader_ignore_signals=False,
     strip=False,
-    upx=True,
+    upx=False,
     upx_exclude=[],
     runtime_tmpdir=None,
     console=False,
@@ -35,4 +42,5 @@ exe = EXE(
     target_arch=None,
     codesign_identity=None,
     entitlements_file=None,
+    icon=None,
 )
