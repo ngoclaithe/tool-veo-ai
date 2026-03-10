@@ -4,7 +4,7 @@ a = Analysis(
     ['main.py'],
     pathex=[],
     binaries=[],
-    datas=[], # Nếu bạn có thư mục chứa ảnh/icon, hãy thêm vào đây: [('src/assets', 'src/assets')]
+    datas=[('.env', '.')], 
     hiddenimports=[
         'selenium',
         'webdriver_manager',

@@ -12,9 +12,8 @@ class LicenseWindow(Toplevel, UIBase):
         self.geometry("450x320")
         self.configure(bg=BG)
         self.resizable(False, False)
-        self.grab_set() # Giữ focus
+        self.grab_set()
         
-        # Center window
         self.update_idletasks()
         w, h = 450, 320
         self.geometry(f"{w}x{h}+{(self.winfo_screenwidth() - w)//2}+{(self.winfo_screenheight() - h)//2}")
@@ -22,7 +21,6 @@ class LicenseWindow(Toplevel, UIBase):
         self._build()
 
     def _build(self):
-        # Header
         Label(self, text="🛡️ KIỂM TRA BẢN QUYỀN", 
               font=("Segoe UI", 12, "bold"), bg=BG, fg=ACCENT).pack(pady=(15, 5))
         
@@ -48,7 +46,6 @@ class LicenseWindow(Toplevel, UIBase):
             
         self._btn(hw_f, "Copy", copy_id, color="#30363D").pack(side=LEFT, padx=5)
 
-        # Key Input
         key_f = self._card(self, "Nhập License Key")
         key_f.pack(fill=X, padx=20, pady=5)
         
@@ -56,7 +53,6 @@ class LicenseWindow(Toplevel, UIBase):
                                bg="#0D1117", fg=TEXT, insertbackground=TEXT, relief="flat")
         self.key_entry.pack(padx=10, pady=10, ipady=5)
 
-        # Buttons
         btn_f = Frame(self, bg=BG)
         btn_f.pack(fill=X, padx=20, pady=15)
         

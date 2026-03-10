@@ -14,7 +14,6 @@ class AdminGenWindow(Tk, UIBase):
         self.configure(bg=BG)
         self.resizable(False, False)
         
-        # Center window
         self.update_idletasks()
         w, h = 500, 480
         self.geometry(f"{w}x{h}+{(self.winfo_screenwidth() - w)//2}+{(self.winfo_screenheight() - h)//2}")
@@ -22,11 +21,9 @@ class AdminGenWindow(Tk, UIBase):
         self._build()
 
     def _build(self):
-        # Header
         Label(self, text="🔑 ADMIN LICENSE GENERATOR", 
               font=("Segoe UI", 14, "bold"), bg=BG, fg=ACCENT).pack(pady=20)
         
-        # Input Machine ID
         mid_f = self._card(self, "Bước 1: Nhập Machine ID của khách")
         mid_f.pack(fill=X, padx=25, pady=5)
         
@@ -35,16 +32,23 @@ class AdminGenWindow(Tk, UIBase):
         self.mid_entry.pack(fill=X, padx=15, pady=15, ipady=5)
         self.mid_entry.focus()
 
-        # Input Days
-        days_f = self._card(self, "Bước 2: Thời hạn (số ngày)")
-        days_f.pack(fill=X, padx=25, pady=5)
+        time_f = self._card(self, "Bước 2: Thời hạn")
+        time_f.pack(fill=X, padx=25, pady=5)
         
-        self.days_entry = Entry(days_f, font=("Segoe UI", 10), width=15,
+        r1 = Frame(time_f, bg=CARD)
+        r1.pack(fill=X, padx=15, pady=5)
+        Label(r1, text="Số ngày:", bg=CARD, fg=MUTED, font=("Segoe UI", 9)).pack(side=LEFT)
+        self.days_entry = Entry(r1, font=("Segoe UI", 10), width=10,
                                 bg="#0D1117", fg=TEXT, insertbackground=TEXT, relief="flat")
         self.days_entry.insert(0, "30")
-        self.days_entry.pack(padx=15, pady=15, ipady=5, anchor=W)
+        self.days_entry.pack(side=LEFT, padx=10, ipady=3)
+        
+        Label(r1, text="Số giờ:", bg=CARD, fg=MUTED, font=("Segoe UI", 9)).pack(side=LEFT, padx=(20, 0))
+        self.hours_entry = Entry(r1, font=("Segoe UI", 10), width=10,
+                                 bg="#0D1117", fg=TEXT, insertbackground=TEXT, relief="flat")
+        self.hours_entry.insert(0, "0")
+        self.hours_entry.pack(side=LEFT, padx=10, ipady=3)
 
-        # Result Key
         res_f = self._card(self, "Bước 3: License Key tạo được")
         res_f.pack(fill=X, padx=25, pady=5)
         
@@ -52,7 +56,6 @@ class AdminGenWindow(Tk, UIBase):
                                bg="#0D1117", fg=TEXT, insertbackground=TEXT, relief="flat")
         self.res_entry.pack(fill=X, padx=15, pady=15, ipady=5)
 
-        # Action Buttons
         btn_f = Frame(self, bg=BG)
         btn_f.pack(fill=X, padx=25, pady=20)
         
@@ -66,14 +69,21 @@ class AdminGenWindow(Tk, UIBase):
             return
             
         try:
-            days = int(self.days_entry.get().strip() or 30)
-            key = generate_license_key(mid, days)
+            days = float(self.days_entry.get().strip() or 0)
+            hours = float(self.hours_entry.get().strip() or 0)
+            
+            if days <= 0 and hours <= 0:
+                messagebox.showerror("Lỗi", "Vui lòng nhập số ngày hoặc số giờ lớn hơn 0!")
+                return
+                
+            key = generate_license_key(mid, days, hours)
             
             self.res_entry.delete(0, END)
             self.res_entry.insert(0, key)
-            messagebox.showinfo("Thành công", f"Đã tạo Key thời hạn {days} ngày!")
+            msg = f"Đã tạo Key thời hạn: {days} ngày, {hours} giờ!"
+            messagebox.showinfo("Thành công", msg)
         except ValueError:
-            messagebox.showerror("Lỗi", "Số ngày phải là số nguyên!")
+            messagebox.showerror("Lỗi", "Số ngày/giờ phải là số (ví dụ: 1 hoặc 0.5)!")
         except Exception as e:
             messagebox.showerror("Lỗi", f"Có lỗi xảy ra: {str(e)}")
 

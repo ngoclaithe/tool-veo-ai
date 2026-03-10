@@ -1,12 +1,7 @@
-"""
-Veo 3 Flow Automation Tool
-Entry Point
-"""
 import os
 import sys
 from tkinter import Tk
 
-# Thêm src vào path nếu cần
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
 from src.ui.app import VeoApp
